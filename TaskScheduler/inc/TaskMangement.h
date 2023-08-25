@@ -3,33 +3,63 @@
 
 #include "common.h"
 
-class CRUD {
+class TaskManager {
     public:
-        virtual void create(const string&, const string&) = 0;
-        virtual void read() = 0;
-        virtual void update() = 0;
-        virtual void remove() = 0;
-};
+    
+        enum UpdateType {
+            TITLE   =   0,
+            SCRIPT,
+            MAX
+        };
 
-class TaskManager : public CRUD {
-    public:
+        enum Priority {
+            LOW     =   0,
+            MEDIUM,
+            HIGH
+        };
+
+        enum Categorize {
+            WORK,
+            PERSONAL,
+            STUDY
+        };
+
         struct TaskInformation {
             string title_;
             string description_;
             struct tm* due_date_;
-            uint32_t priority;
-            TaskInformation(const string& title, const string& des) : title_(title), description_(des) {}
+            Priority priority_;
+            Categorize categorize_;
+            TaskInformation(const string& title, const string& des, Priority level = Priority::LOW) 
+                : title_(title), description_(des), priority_{level}, categorize_{Categorize::PERSONAL} {}
         };
+
+
+        struct CRUD_UpdateHandler {
+            int index_;             // <! Index of task
+            std::string title_;     // <! Title for updating
+            std::string scripture_; // <! Scripture of task index
+            CRUD_UpdateHandler(){}
+            CRUD_UpdateHandler(const int idx, const std::string& title, const std::string& script)
+                : index_(idx), title_(title), scripture_(script) {}
+        };
+
         TaskManager() {}
-        TaskManager(const string& title, const string& description);
+        TaskManager(const string& title, const string& description, Priority level = Priority::LOW);
         ~TaskManager();
 
-        void create(const string&, const string&) override;
-        void read() override;
-        void update() override;
-        void remove() override;
+    public:
+        void create(const string&, const string&, Priority level = Priority::LOW);
+        void read(const int index);
+        void update(const int index, const UpdateType& type, const std::string& script, const std::string& script_2 = "");
+        void remove(const int index);
+        void filter(const Categorize&);
+        void showTask();
+        void setPriority(const int index, Priority level);
+        void prioritySort();
 
     private:
+        TaskInformation* m_templateHolder;
         vector<TaskInformation*> m_taskInforList;
         uint32_t m_size;
 };
