@@ -54,7 +54,11 @@ class TaskManager {
         void update(const int index, const UpdateType& type, const std::string& script, const std::string& script_2 = "");
         void remove(const int index);
         void filter(const Categorize&);
+        void filter(const Priority&);
+        void filter(const tm&);
         void showTask();
+
+        void setCategorize(const int index, Categorize categorize);
         void setPriority(const int index, Priority level);
         void prioritySort();
 

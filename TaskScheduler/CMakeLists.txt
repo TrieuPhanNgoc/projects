@@ -4,7 +4,9 @@ project(TaskManagement)
 
 include_directories(inc)
 
-set(SRCFILE src/TaskManagement.cpp)
+set(SRCFILE src/TaskManagement.cpp
+            src/UserAuthentication.cpp
+    )
 
 add_executable(program main.cpp ${SRCFILE})
 
