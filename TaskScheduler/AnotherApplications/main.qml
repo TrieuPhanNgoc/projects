@@ -33,6 +33,7 @@ Window {
                 anchors.centerIn: parent
                 font.pixelSize: 26
                 text: "File"
+                font.family: "Regular"
             }
 
             MouseArea {
